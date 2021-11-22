@@ -11,6 +11,13 @@ class Variable:
     def set_creator(self, func):
         self.creator = func
 
+    def backward(self):
+        f = self.creator  # 1. 함수를 가져온다.
+        if f is not None:
+            x = f.input  # 2. 함수의 입력을 가져온다.
+            x.grad = f.backward(self.grad)  # 3. 함수의 backward 메서드를 호출한다.
+            x.backward()  # 하나 앞 변수의 backward 메서드를 호출한다.(재귀)
+
 
 class Function:
     def __call__(self, input):
@@ -66,3 +73,8 @@ assert y.creator.input.creator == B
 assert y.creator.input.creator.input == a
 assert y.creator.input.creator.input.creator == A
 assert y.creator.input.creator.input.creator.input == x
+
+# 역전파
+y.grad = np.array(1.0)
+y.backward()
+print(x.grad)
