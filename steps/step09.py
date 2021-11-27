@@ -4,6 +4,9 @@ import numpy as np
 
 class Variable:
     def __init__(self, data):
+        if data is not None:
+            if not isinstance(data, np.ndarray):
+                raise TypeError('{}은(는) 지원하지 않습니다.'.format(type(data)))
         self.data = data  # 통상값
         self.grad = None  # 미분값
         self.creator = None
@@ -19,6 +22,9 @@ class Variable:
     #         x.backward()  # 하나 앞 변수의 backward 메서드를 호출한다.(재귀)
 
     def backward(self):
+        if self.grad is None:
+            # self.data와 형상과 데이터 타입이 같은 ndarray 인스턴스 생성
+            self.grad = np.ones_like(self.data)
         funcs = [self.creator]
         while funcs:
             f = funcs.pop()  # 함수를 가져온다
@@ -75,10 +81,8 @@ def exp(x):
 
 
 x = Variable(np.array(0.5))
-a = square(x)
-b = exp(a)
-y = square(b)
 
-y.grad = np.array(1.0)
+y = square(exp(square(x)))
+
 y.backward()
 print(x.grad)
