@@ -1,5 +1,7 @@
 # TIL - Deep Learning from Scratch 3
 
+## 제1고지: 미분자동계산
+
 ### Step1.
 
 - `self.변수`는 인스턴스 변수
@@ -108,3 +110,14 @@
      - 연쇄법칙 활용 -> 효율적, 정밀하게 계산
      - 역전파도 자동미분에 속함
      - forward mode / reverse mode(역전파)
+
+
+
+
+
+## 제2고지: 자연스러운 코드로
+
+### Step 11.
+
+- 
+
