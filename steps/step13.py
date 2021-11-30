@@ -35,7 +35,7 @@ class Variable:
                 gxs = (gxs,)
 
             for x, gx in zip(f.inputs, gxs):
-                x.grad = gx
+                x.grad = gx  # 역전파로 전파되는 미분값을 Variable의 인스턴스 변수 grad에 저장
 
                 if x.creator is not None:
                     funcs.append(x.creator)
@@ -77,7 +77,7 @@ class Square(Function):
         return x ** 2
 
     def backward(self, gy):
-        x = self.input.data
+        x = self.inputs[0].data
         gx = 2 * x * gy  # gy는 출력쪽에서 전해지는 미분값
         return gx
 
@@ -141,7 +141,11 @@ def numerical_diff(f, x, eps=1e-4):
     return (y1.data - y0.data) / (2 * eps)
 
 
-x0 = Variable(np.array(2))
-x1 = Variable(np.array(3))
-y = add(x0, x1)  # Add 클래스 생성 과정이 감춰짐
-print(y.data)
+x = Variable(np.array(2))
+y = Variable(np.array(3))
+
+z = add(square(x), square(y))
+z.backward()
+print(z.data)
+print(x.grad)
+print(y.grad)
