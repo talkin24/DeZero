@@ -250,5 +250,53 @@
 
 - weakref.ref 함수를 사용하여 약한 참조를 만들 수 있음
 
-- 
 
+
+### Step 18.
+
+- 많은 경우 머신러닝에서는 역전파로 구하고 싶은 미분값은 말단 변수뿐일 때가 대부분
+
+- 역전파하는 경우엔 참조할 변수들을 미리 inputs에 보관해야함. 하지만 때로는 미분값이 필요 없는 경우도 있고, 이 경우에는 중간 계산 결과를 저장할 필요가 없음
+
+  - 학습 시에는 미분값을 구해야 하지만, 추론 시에는 단순 순전파만 하기 때문에 중간 계산 결과를 버리면 메모리 사용량을 크게 줄일 수 있음
+
+- 설정 데이터는 단 한군데에만 존재하는 것이 좋음. 그래서 Config 클래스는 인스턴스화 하지 않고 '클래스' 상태로 이용함. 인스턴스는 여러개 생성할 수 있지만 클래스는 항상 하나만 존재하기 때문
+
+- with문은 후처리를 자동으로 사용하고자 할때 사용하는 구문
+
+  ```python
+  f = open('sample.txt', 'w')
+  f.write('hello, world!')
+  f.close()
+  
+  with open('sample.txt', 'w') as f:
+  	f.write('hello, world!')
+  ```
+
+- config를 일시적으로 전환할 때, with문을 사용하는 경우 많음
+
+- `@contextlib.contextmanager` 데코레이터를 달면 문맥을 판단하는 함수가 만들어짐
+
+  ```python
+  import contextlib
+  
+  @contextlib.contextmanager
+  def config_text():
+  	print('start') # 전처리
+    try:
+      yield
+    finally:
+      print('done') # 후처리
+    
+  with config_test():
+    print('process...')
+    
+    
+  '''
+  start
+  process...
+  done
+  '''
+  ```
+
+  
