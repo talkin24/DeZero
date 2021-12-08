@@ -10,11 +10,12 @@ class Config:
 
 
 class Variable:
-    def __init__(self, data):
+    def __init__(self, data, name=None):
         if data is not None:
             if not isinstance(data, np.ndarray):
                 raise TypeError('{}은(는) 지원하지 않습니다.'.format(type(data)))
         self.data = data  # 통상값
+        self.name = name
         self.grad = None  # 미분값
         self.creator = None
         self.generation = 0  # 세대를 기록하는 변수
@@ -62,6 +63,32 @@ class Variable:
 
     def cleargrad(self):
         self.grad = None
+
+    @property
+    def shape(self):
+        return self.data.shape
+
+    @property
+    def ndim(self):
+        return self.data.ndim
+
+    @property
+    def size(self):
+        return self.data.size
+
+    @property
+    def dtype(self):
+        return self.data.dtype
+
+    def __len__(self):
+        return len(self.data)
+
+    def __repr__(self):
+        if self.data is None:
+            return 'variable(None)'
+        # 줄바꿈아 있으면 줄바꿈 뒤에 간 공백을 넣어 숫자의 시작 위치가 가지런 하게 표시되게 함
+        p = str(self.data).replace('\n', '\n' + ' ' * 9)
+        return 'variable(' + p + ')'
 
 
 class Function:
@@ -181,26 +208,7 @@ def no_grad():  # 순전파만 사용하고 싶을때
     return using_config('enable_backprop', False)
 
 
-x0 = Variable(np.array(1.0))
-x1 = Variable(np.array(1.0))
-t = add(x0, x1)
-y = add(x0, t)
-y.backward()
-
-print(y.grad, t.grad)
-print(x0.grad, x1.grad)
-
-
-Config.enable_backprop = True
-x = Variable(np.ones((100, 100, 100)))
-y = square(square(square(x)))
-y.backward()
-
-Config.enable_backprop = False
-x = Variable(np.ones((100, 100, 100)))
-y = square(square(square(x)))
-# y.backward()
-
-with no_grad():
-    x = Variable(np.array(2.0))
-    y = square(x)
+x = Variable(np.array([[1, 2, 3], [4, 5, 6]]))
+print(x.shape)
+print(len(x))
+print(x)
