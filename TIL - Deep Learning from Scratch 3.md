@@ -348,3 +348,18 @@
   3. Variable 클래스의 연산자를 오버로드 함
 
   
+
+### Step 23.
+
+- `__init__.py` 는 모듈을 임포트할 때 가장 먼저 실행되는 파일
+
+  - 이 파일에서 미리 임포트를 해두면 각 모듈들을 일일이 임포트할 필요가 없게됨
+
+    ```python
+    from dezero.core_simple import Variable
+    from dezero import Variable
+    ```
+
+- 패키지가 설치되면 해당 패키지가 파이썬 검색 경로에 자동으로 추가됨
+
+- `__file__` 변수는 구글 코랩이나 파이썬 인터프리터의 인터랙티브 모드에서는 정의되어 있지 않음
