@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
-is_simple_core = True
+# step23.py에서 step32.py까지는 simple_core를 이용
+is_simple_core = False
 
 if is_simple_core:
     from dezero.core_simple import Variable, as_array
