@@ -36,4 +36,4 @@ for i in range(iters):
     gx.backward()
     gx2 = x.grad
 
-    x.data -= gx.data / gx2(x.data)
+    x.data -= gx.data / gx2.data
