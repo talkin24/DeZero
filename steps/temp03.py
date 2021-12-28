@@ -10,24 +10,13 @@ if '__file__' in globals():  # __file__ 이라는 전역변수가 정의되어 �
 
 import numpy as np
 from dezero import Variable
-import dezero.functions as F
 
-
-def f(x):
-    t = x ** 2
-    y = F.sum(t)
-    return y
-
-
-x = Variable(np.array([1.0, 2.0]))
-v = Variable(np.array([4.0, 5.0]))
-
-y = f(x)
-y.backward(creat_graph=True)
-
+x = Variable(np.array(2.0))
+y = x ** 2
+y.backward(create_graph=True)
 gx = x.grad
 x.cleargrad()
 
-z = F.matmul(v, gx)
+z = gx ** 3 + y
 z.backward()
 print(x.grad)
