@@ -483,7 +483,25 @@
 
 ### Step36. 고차 미분 이외의 용도
 
+- 역전파의 계산그래프 연결은 고차 미분 이외에도 사용 가능
+- **double back propagation: 역전파로 수행한 계산에 대해 또 다시 역전파**
+- double backprop은 최적화 함수에 미분 결과(기울기)가 들어 있는 경우 사용됨
+- WGAN-GP, MAML, TRPO 등 최신 유명 연구에서 double backprop 기능 사용 중
 
 
 
+### 칼럼: 뉴턴방법과 double backprop 보충
+
+$$
+\nabla f(\mathbf x)
+$$
+
+- 위 기호는 기울기를 나타냄
+
+$$
+\nabla ^2 f(\mathbf x)
+$$
+
+- 위 기호는 헤세 행렬을 나타냄. 헤세행렬은 x의 두 원소에 대한 미분
+- 
 
