@@ -40,3 +40,18 @@ y2 = x.T
 print(y2)
 print(type(y2))
 print(y1 != y2)
+
+A, B, C, D = 1, 2, 3, 4
+x = np.random.randn(A, B, C, D)
+print(x)
+print(x.shape)
+y = x.transpose(1, 0, 3, 2)
+print(y)
+print(y.shape)
+
+print('*'*100)
+x = Variable(np.random.randn(2, 3, 4))
+y0 = F.transpose(x)
+print(y0.shape)
+y1 = F.transpose(x, axes=(1, 0, 2))
+print(y1.shape)
