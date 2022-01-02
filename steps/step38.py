@@ -17,3 +17,26 @@ x = Variable(np.array([[1, 2, 3], [4, 5, 6]]))
 y = F.reshape(x, (6, ))
 y.backward(retain_grad=True)
 print(x.grad)
+
+x = Variable(np.random.randn(1, 2, 3))
+print(x)
+y = x.reshape((2, 3))
+print(y)
+y = x.reshape(2, 3)
+print(y)
+
+
+x = Variable(np.array([[1, 2, 3], [4, 5, 6]]))
+y = F.transpose(x)
+y.backward()
+print(x.grad)
+
+
+x = Variable(np.random.randn(2, 3))
+y1 = x.transpose()
+print(y1)
+print(type(y1))
+y2 = x.T
+print(y2)
+print(type(y2))
+print(y1 != y2)
