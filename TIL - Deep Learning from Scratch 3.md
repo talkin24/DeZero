@@ -549,3 +549,11 @@ $$
 
 - axis=0: column
 - numpy sum함수의 keepdims라는 인수는 입력과 출력의 차원 수를 동일하게 유지할지 정함
+
+
+
+### Step40. 브로드캐스트 함수
+
+- 브로드캐스트의 역전파는 입력 형상으로 합치기(sum)
+- broadcast_to 함수와 sum_to 함수는 상호 의존적
+- 

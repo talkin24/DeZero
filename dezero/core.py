@@ -3,6 +3,8 @@ import numpy as np
 import unittest
 import weakref
 import contextlib
+
+from numpy.core.fromnumeric import shape
 import dezero
 
 
@@ -138,20 +140,27 @@ class Function:
 
 class Add(Function):
     def forward(self, x0, x1):
+        self.x0_shape, self.x1_shape = x0.shape, x1.shape
         y = x0 + x1
         return y
 
     def backward(self, gy):
+        gx0, gx1 = gy, gy
+        if self.x0_shape != self.x1_shape:
+            gx0 = dezero.functions.sum_to(gx0, shape=self.x0_shape)
+            gx1 = dezero.functions.sum_to(gx1, shape=self.x1_shape)
         return gy, gy
 
 
 class Mul(Function):
     def forward(self, x0, x1):
+        self.x0_shape, self.x1_shape = x0.shape, x1.shape
         y = x0 * x1
         return y
 
     def backward(self, gy):
         x0, x1 = self.inputs
+
         return gy * x1, gy * x0
 
 
@@ -165,6 +174,7 @@ class Neg(Function):
 
 class Sub(Function):
     def forward(self, x0, x1):
+        self.x0_shape, self.x1_shape = x0.shape, x1.shape
         y = x0 - x1
         return y
 
@@ -174,6 +184,7 @@ class Sub(Function):
 
 class Div(Function):
     def forward(self, x0, x1):
+        self.x0_shape, self.x1_shape = x0.shape, x1.shape
         y = x0 / x1
         return y
 
