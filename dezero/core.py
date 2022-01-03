@@ -149,7 +149,12 @@ class Add(Function):
         if self.x0_shape != self.x1_shape:
             gx0 = dezero.functions.sum_to(gx0, shape=self.x0_shape)
             gx1 = dezero.functions.sum_to(gx1, shape=self.x1_shape)
-        return gy, gy
+        return gx0, gx1
+
+
+def add(x0, x1):
+    x1 = as_array(x1)
+    return Add()(x0, x1)
 
 
 class Mul(Function):
@@ -160,8 +165,17 @@ class Mul(Function):
 
     def backward(self, gy):
         x0, x1 = self.inputs
+        gx0 = gy * x1
+        gx1 = gy * x0
+        if self.x0_shape != self.x1_shape:
+            gx0 = dezero.functions.sum_to(gx0, shape=self.x0_shape)
+            gx1 = dezero.functions.sum_to(gx1, shape=self.x1_shape)
+        return gx0, gx1
 
-        return gy * x1, gy * x0
+
+def mul(x0, x1):
+    x1 = as_array(x1)
+    return Mul()(x0, x1)
 
 
 class Neg(Function):
@@ -172,6 +186,10 @@ class Neg(Function):
         return -gy
 
 
+def neg(x):
+    return Neg()(x)
+
+
 class Sub(Function):
     def forward(self, x0, x1):
         self.x0_shape, self.x1_shape = x0.shape, x1.shape
@@ -179,7 +197,22 @@ class Sub(Function):
         return y
 
     def backward(self, gy):
-        return gy, -gy
+        gx0 = gy
+        gx1 = -gy
+        if self.x0_shape != self.x1_shape:
+            gx0 = dezero.functions.sum_to(gx0, shape=self.x0_shape)
+            gx1 = dezero.functions.sum_to(gx1, shape=self.x1_shape)
+        return gx0, gx1
+
+
+def sub(x0, x1):
+    x1 = as_array(x1)
+    return Sub()(x0, x1)
+
+
+def rsub(x0, x1):
+    x1 = as_array(x1)
+    return Sub()(x1, x0)
 
 
 class Div(Function):
@@ -192,7 +225,20 @@ class Div(Function):
         x0, x1 = self.inputs
         gx0 = gy / x1
         gx1 = gy * (-x0 / x1 ** 2)
+        if self.x0_shape != self.x1_shape:
+            gx0 = dezero.functions.sum_to(gx0, shape=self.x0_shape)
+            gx1 = dezero.functions.sum_to(gx1, shape=self.x1_shape)
         return gx0, gx1
+
+
+def div(x0, x1):
+    x1 = as_array(x1)
+    return Div()(x0, x1)
+
+
+def rdiv(x0, x1):
+    x1 = as_array(x1)
+    return Div()(x1, x0)
 
 
 class Pow(Function):
@@ -208,6 +254,10 @@ class Pow(Function):
         c = self.c
         gx = c * x ** (c - 1) * gy
         return gx
+
+
+def pow(x, c):
+    return Pow(c)(x)
 
 
 @contextlib.contextmanager
@@ -234,44 +284,6 @@ def as_variable(obj):
     if isinstance(obj, Variable):
         return obj
     return Variable(obj)
-
-
-def add(x0, x1):
-    x1 = as_array(x1)
-    return Add()(x0, x1)
-
-
-def mul(x0, x1):
-    x1 = as_array(x1)
-    return Mul()(x0, x1)
-
-
-def neg(x):
-    return Neg()(x)
-
-
-def sub(x0, x1):
-    x1 = as_array(x1)
-    return Sub()(x0, x1)
-
-
-def rsub(x0, x1):
-    x1 = as_array(x1)
-    return Sub()(x1, x0)
-
-
-def div(x0, x1):
-    x1 = as_array(x1)
-    return Div()(x0, x1)
-
-
-def rdiv(x0, x1):
-    x1 = as_array(x1)
-    return Div()(x1, x0)
-
-
-def pow(x, c):
-    return Pow(c)(x)
 
 
 def setup_variable():
