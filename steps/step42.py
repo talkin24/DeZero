@@ -37,7 +37,8 @@ iters = 100
 
 for i in range(iters):
     y_pred = predict(x)
-    loss = mean_squared_error(y, y_pred)
+    # loss = mean_squared_error(y, y_pred)
+    loss = F.mean_squared_error(y, y_pred)
 
     W.cleargrad()
     b.cleargrad()
