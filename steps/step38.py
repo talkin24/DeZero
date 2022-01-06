@@ -18,7 +18,7 @@ y = F.reshape(x, (6, ))
 y.backward(retain_grad=True)
 print(x.grad)
 
-x = Variable(np.random.randn(1, 2, 3))
+x = Variable(np.random.randn(1, 2, 3)) 
 print(x)
 y = x.reshape((2, 3))
 print(y)

@@ -17,6 +17,6 @@ y.backward(create_graph=True)
 gx = x.grad
 x.cleargrad()
 
-z = gx ** 3 + y
+z = gx ** 3 + y # gx는 단순한 변수가 아니라 계산 그래프(식)임
 z.backward()
 print(x.grad)
