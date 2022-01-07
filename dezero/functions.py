@@ -2,7 +2,7 @@
 from dezero.core import as_variable
 import numpy as np
 from dezero.core import Function, as_array
-from dezero import utils
+from dezero import cuda, utils
 
 
 class Sin(Function):
@@ -48,6 +48,22 @@ class Tanh(Function):
 
 def tanh(x):
     return Tanh()(x)
+
+
+class Exp(Function):
+    def forward(self, x):
+        xp = cuda.get_array_module(x)
+        y = xp.exp(x)
+        return y
+
+    def backward(self, gy):
+        y = self.outputs[0]()  # weakref
+        gx = gy * y
+        return gx
+
+
+def exp(x):
+    return Exp()(x)
 
 
 class Reshape(Function):
@@ -219,3 +235,16 @@ def sigmoid_simple(x):
     x = as_variable(x)
     y = 1 / (1 + exp(-x))
     return y
+
+
+class Sigmoid(Function):
+    def forward(self, x):
+        xp = cuda.get_array_module(x)
+        # y = 1 / (1 + xp.exp(-x))
+        y = xp.tanh(x * 0.5) * 0.5 + 0.5  # Better implementation
+        return y
+
+    def backward(self, gy):
+        y = self.outputs[0]()
+        gx = gy * y * (1 - y)
+        return gx
