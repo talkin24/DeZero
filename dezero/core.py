@@ -111,6 +111,10 @@ class Variable:
         return 'variable(' + p + ')'
 
 
+class Parameter(Variable):
+    pass
+
+
 class Function:
     def __call__(self, *inputs):
         inputs = [as_variable(x) for x in inputs]
