@@ -213,3 +213,9 @@ class Linear(Function):
 
 def linear(x, W, b=None):
     return Linear()(x, W, b)
+
+
+def sigmoid_simple(x):
+    x = as_variable(x)
+    y = 1 / (1 + exp(-x))
+    return y
