@@ -27,7 +27,7 @@ hidden_size = 10
 
 # 모델 정의
 model = MLP((hidden_size, 1))
-optimizer = optimizers.SGD(lr)
+optimizer = optimizers.MomentumSGD(lr)
 optimizer.setup(model)
 # 또는 optimizer.SGD(lr).setup(model)
 
