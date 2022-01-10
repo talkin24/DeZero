@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from dezero import Layer
 from dezero import utils
 import dezero.functions as F

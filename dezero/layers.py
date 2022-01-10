@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import numpy as np
 from dezero.core import Parameter
 import dezero.functions as F
