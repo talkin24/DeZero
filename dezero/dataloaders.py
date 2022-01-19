@@ -18,7 +18,7 @@ class DataLoader:
         if self.shuffle:
             self.index = np.random.permutation(len(self.dataset))
         else:
-            self.index = np.arrange(len(self.dataset))
+            self.index = np.arange(len(self.dataset))
 
     def __iter__(self):
         return self
@@ -30,8 +30,9 @@ class DataLoader:
 
         i, batch_size = self.iteration, self.batch_size
         batch_index = self.index[i * batch_size:(i + 1) * batch_size]
-        x = np.array([example[0] for example in batch_index])
-        t = np.array([example[1] for example in batch_index])
+        batch = [self.dataset[i] for i in batch_index]
+        x = np.array([example[0] for example in batch])
+        t = np.array([example[1] for example in batch])
 
         self.iteration += 1
         return x, t
