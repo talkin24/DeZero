@@ -7,7 +7,8 @@ from dezero import cuda, utils
 
 class Sin(Function):
     def forward(self, x):
-        y = np.sin(x)
+        xp = cuda.get_array_module(x)
+        y = xp.sin(x)
         return y
 
     def backward(self, gy):
@@ -22,7 +23,8 @@ def sin(x):
 
 class Cos(Function):
     def forward(self, x):
-        y = np.cos(x)
+        xp = cuda.get_array_module(x)
+        y = xp.cos(x)
         return y
 
     def backward(self, gy):
@@ -37,7 +39,8 @@ def cos(x):
 
 class Tanh(Function):
     def forward(self, x):
-        y = np.tanh(x)
+        xp = cuda.get_array_module(x)
+        y = xp.tanh(x)
         return y
 
     def backward(self, gy):
@@ -112,10 +115,10 @@ class Transpose(Function):
     def backward(self, gy):
         if self.axes is None:
             return transpose(gy)
+
         axes_len = len(self.axes)
         inv_axes = tuple(np.argsort([axis % axes_len for axis in self.axes]))
-        print(self.axes)
-        print(inv_axes)
+
         return transpose(gy, inv_axes)
 
 
@@ -150,7 +153,8 @@ class BroadcastTo(Function):
 
     def forward(self, x):
         self.x_shape = x.shape
-        y = np.broadcast_to(x, self.shape)
+        xp = cuda.get_array_module(x)
+        y = xp.broadcast_to(x, self.shape)
         return y
 
     def backward(self, gy):
@@ -294,8 +298,9 @@ class GetItemGrad(Function):
         self.in_shape = in_shape
 
     def forward(self, gy):
-        gx = np.zeros(self.in_shape)
-        np.add.at(gx, self.slices, gy)
+        xp = cuda.get_array_module(gy)
+        gx = xp.zeros(self.in_shape)
+        xp.add.at(gx, self.slices, gy)
         return gx
 
     def backward(self, ggx):
@@ -402,7 +407,8 @@ def accuracy(y, t):
 
 class ReLU(Function):
     def forward(self, x):
-        y = np.maximum(x, 0.0)
+        xp = cuda.get_array_module(x)
+        y = xp.maximum(x, 0.0)
         return y
 
     def backward(self, gy):
