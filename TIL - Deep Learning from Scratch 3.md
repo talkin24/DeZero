@@ -566,3 +566,8 @@ $$
 ### Step52. GPU 지원
 - cupy와 numpy는 API가 거의 동일
 - mac os는 cupy 임포트 불가
+- GPU 대응은 numpy를 cupy로 변경하면 됨
+
+
+### Step53. 모델 저장 및 읽어오기
+- 
