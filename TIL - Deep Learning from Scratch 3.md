@@ -639,3 +639,14 @@ $$
   >>> (i for i in range(50) if i % 2 == 0)
   <generator object <genexpr> at 0x024F02A0>
   ```
+- `np.newaxis`를 사용하면 축이 하나 더 생김
+
+
+### Step59. RNN을 활용한 시계열 데이터 처리
+- 피드포워드: 데이터를 순방향으로만 계속 입력해줌
+  - RNN은 피드포워드 구조라고 볼 수 없음
+- RNN은 입력 데이터가 '나열되는' 패턴을 학습할 수 있음
+- BPTT(Backpropagation Through Time): 시간을 거슬러 역전파(입력데이터가 시간에 따라 계속 들어올 때)
+- 역전파를 잘하려면 계산 그래프를 적당한 길이에서 끊어줘야함
+  - Truancated BPTT
+  - 이전 학습에서 사용한 계산그래프로 기울기가 흐르지 못하도록 끊어야 함!
