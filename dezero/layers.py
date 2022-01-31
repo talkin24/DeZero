@@ -284,6 +284,7 @@ class LSTM(Layer):
         return h_new
 
 
+
 # =============================================================================
 # EmbedID / BatchNorm
 # =============================================================================
@@ -325,6 +326,10 @@ class BatchNorm(Layer):
             self._init_params(x)
         return F.batch_nrom(x, self.gamma, self.beta, self.avg_mean.data,
                             self.avg_var.data)
+
+
+
+
 
 from dezero.functions_conv import conv2d
 from dezero.functions_conv import deconv2d
