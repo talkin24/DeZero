@@ -22,8 +22,7 @@ def conv2d_simple(x, W, b=None, stride=1, pad=0):
     col = im2col(x, (KH, KW), stride, pad, to_matrix=True)
     Weight = Weight.reshape(OC, -1).transpose()
     t = linear(col, Weight, b)
-    y = t.reshape(N, OH, OW, OC)
-    y = y.transpose(0, 3, 1, 2)
+    y = t.reshape(N, OH, OW, OC).transpose(0, 3, 1, 2)
     return y
 
 
