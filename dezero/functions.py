@@ -5,14 +5,7 @@ from dezero.core import mul
 from dezero.core import rsub
 from dezero.core import sub
 from dezero.core import add
-from dezero.functions_conv import average_pooling
-from dezero.functions_conv import pooling
-from dezero.functions_conv import pooling_simple
-from dezero.functions_conv import col2im
-from dezero.functions_conv import im2col
-from dezero.functions_conv import conv2d_simple
-from dezero.functions_conv import deconv2d
-from dezero.functions_conv import conv2d
+
 
 import numpy as np
 import dezero
@@ -676,3 +669,12 @@ class Clip(Function):
 
 def clip(x, x_min, x_max):
     return Clip(x_min, x_max)(x)
+
+from dezero.functions_conv import average_pooling
+from dezero.functions_conv import pooling
+from dezero.functions_conv import pooling_simple
+from dezero.functions_conv import col2im
+from dezero.functions_conv import im2col
+from dezero.functions_conv import conv2d_simple
+from dezero.functions_conv import deconv2d
+from dezero.functions_conv import conv2d

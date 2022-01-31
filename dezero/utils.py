@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from dezero.core import Variable
 import os
 import subprocess
 from dezero import cuda
